@@ -1,0 +1,16 @@
+---
+name: Checks # workflow 이름
+
+on: [push] # repository에 push가 발생시 이벤트 활성화
+
+jobs:
+  test-lint:
+    name: Test and Lint
+    runs-on: ubuntu-20.04 # 작업 환경
+    steps: # 작업 단계
+      - name: Checkout # repository에 있는 코드를 작업환경으로 가져오는 역할
+        uses: actions/checkout@v2
+      - name: Test # 전체 테스트코드 실행
+        run: docker-compose run --rm app sh -c "python manage.py test"
+      - name: Lint # pep8 코드스타일 준수 및 lint 검사
+        run: docker-compose run --rm app sh -c "flake8"
