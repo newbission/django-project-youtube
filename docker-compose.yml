@@ -1,6 +1,7 @@
 # 도커 컨테이너 관리 파일
 version: '0.0.1'
 services:
+  # 첫번째 컨테이너: Django
   app:
     build:
       context: .
@@ -10,4 +11,24 @@ services:
       - '8000:8000'
     volumes:
       - ./app:/app
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    command: >
+      sh -c "python manage.py wait_for_db &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=youtube
+      - DB_USER=yjm0513
+      - DB_PASS=password123
+    depends_on:
+      - db
+
+  # 두번째 컨테이너: Postgres
+  db:
+    image: postgres:16-alpine
+    volumes: # 데이터 저장 공간
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=youtube
+      - POSTGRES_USER=yjm0513
+      - POSTGRES_PASSWORD=password123
