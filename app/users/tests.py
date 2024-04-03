@@ -18,7 +18,7 @@ class UserTestCase(TestCase):
         self.assertFalse(user.is_superuser)
 
     def test_create_superuser(self):
-        email = 'inseop_super@gmail.com'
+        email = 'newbission@gmail.com'
         password = 'password123'
 
         super_user = get_user_model().objects.create_superuser(
