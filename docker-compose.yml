@@ -20,7 +20,7 @@ services:
       - DB_NAME=youtube
       - DB_USER=yjm0513
       - DB_PASS=password123
-    depends_on:
+    depends_on: # db 컨테이너 실행 -> app 컨테이너 실행
       - db
 
   # 두번째 컨테이너: Postgres
